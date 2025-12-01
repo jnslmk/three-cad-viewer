@@ -132,7 +132,7 @@ body {
   flex-direction: column;
   font-family: sans-serif;
   -webkit-text-size-adjust: none;
-  background-color: var(--tcv-bg-color);
+  background-color: transparent;
   color: var(--tcv-font-color);
   margin: 4px;
   width: fit-content;
