@@ -59,25 +59,26 @@
 }
 
 [data-theme="dark"] {
-  --tcv-theme-blue: rgb(48, 142, 225);
-  --tcv-theme-led: rgb(255, 230, 0);
-  --tcv-font-color: #ddd;
-  --tcv-bg-color: #444;
-  --tcv-bg-overlay-color: rgba(68, 68, 68, 0.7);
-  --tcv-bg-overlay-rest-color: rgba(68, 68, 68, 0.14);
-  --tcv-bg-highlight-color: rgb(104, 104, 104);
-  --tcv-bg-pressed-color: rgb(94, 94, 94);
-  --tcv-bg-pressed-border-color: #999;
-  --tcv-bg-tooltip-color: rgb(77, 109, 138);
-  --tcv-x-color: rgb(255, 69, 0);
-  --tcv-y-color: rgb(50, 205, 50);
-  --tcv-z-color: rgb(59, 158, 255);
-  --tcv-shadow: rgba(255, 255, 255, 0.6);
-  --tcv-menu-shadow: rgba(127, 127, 127, 0.6);
-  --tcv-scrollbar-hover: rgba(255, 255, 255, 0.4);
-  --tcv-scrollbar-active: rgba(255, 255, 255, 0.6);
-  --tcv-scrollbar-thumb: rgba(255, 255, 255, 0.2);
-  --tcv-dropdown-bg: #333;
+/* Catppuccin Mocha palette */
+  --tcv-theme-blue: rgb(137, 180, 250);  /* blue */
+  --tcv-theme-led: rgb(249, 226, 175);   /* yellow */
+  --tcv-font-color: #cdd6f4;             /* text */
+  --tcv-bg-color: rgba(30, 30, 46, 0.8); /* base @ 80% */
+  --tcv-bg-overlay-color: rgba(49, 50, 68, 0.9);  /* surface0 @ 90% */
+  --tcv-bg-overlay-rest-color: rgba(49, 50, 68, 0.14); /* surface0 @ 14% */
+  --tcv-bg-highlight-color: rgb(69, 71, 90);      /* surface1 */
+  --tcv-bg-pressed-color: rgb(88, 91, 112);       /* surface2 */
+  --tcv-bg-pressed-border-color: #6c7086;         /* overlay0 */
+  --tcv-bg-tooltip-color: rgb(49, 50, 68);        /* surface0 */
+  --tcv-x-color: rgb(243, 139, 168);     /* red */
+  --tcv-y-color: rgb(166, 227, 161);     /* green */
+  --tcv-z-color: rgb(137, 180, 250);     /* blue */
+  --tcv-shadow: rgba(17, 17, 27, 0.6);   /* crust */
+  --tcv-menu-shadow: rgba(24, 24, 37, 0.6);       /* mantle */
+  --tcv-scrollbar-hover: rgba(245, 224, 220, 0.4);  /* rosewater */
+  --tcv-scrollbar-active: rgba(245, 224, 220, 0.6); /* rosewater */
+  --tcv-scrollbar-thumb: rgba(245, 224, 220, 0.2);  /* rosewater */
+  --tcv-dropdown-bg: #181825;            /* mantle */
 
   --tcv-icon-bottom: url("../icons/dark/bottom.svg");
   --tcv-icon-front: url("../icons/dark/front.svg");
