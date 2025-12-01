@@ -91,6 +91,7 @@ class Viewer {
       alpha: true,
       antialias: true,
       stencil: true,
+      preserveDrawingBuffer: true,
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.cadWidth, this.height);
