@@ -1,5 +1,6 @@
 import { DistanceMeasurement, PropertiesMeasurement } from "./measure";
 import { SelectObject } from "./select";
+import { ElementPicker } from "./picker";
 
 /**
  * Enum representing tool types.
@@ -7,12 +8,14 @@ import { SelectObject } from "./select";
  * @property {string} NONE - Represents no tool.
  * @property {string} DISTANCE - Distance measurement tool.
  * @property {string} PROPERTIES - Properties measurement tool.
+ * @property {string} PICKER - Element picker tool.
  */
 export const ToolTypes = {
   NONE: "None",
   DISTANCE: "DistanceMeasurement",
   PROPERTIES: "PropertiesMeasurement",
   SELECT: "SelectObjects",
+  PICKER: "ElementPicker",
 };
 
 export class Tools {
@@ -25,6 +28,7 @@ export class Tools {
     this.distanceMeasurement = new DistanceMeasurement(viewer, debug);
     this.propertiesMeasurement = new PropertiesMeasurement(viewer, debug);
     this.selectObject = new SelectObject(viewer);
+    this.elementPicker = new ElementPicker(viewer);
     this.enabledTool = null; // There can only be one enabled tool at a time
   }
 
@@ -47,6 +51,9 @@ export class Tools {
         break;
       case ToolTypes.SELECT:
         this.selectObject.enableContext();
+        break;
+      case ToolTypes.PICKER:
+        this.elementPicker.enableContext();
         break;
       default:
         throw new Error(`Unknown tool type: ${toolType}`);
@@ -81,6 +88,9 @@ export class Tools {
       case ToolTypes.SELECT:
         this.selectObject.disableContext();
         break;
+      case ToolTypes.PICKER:
+        this.elementPicker.disableContext();
+        break;
       default:
         throw new Error(`Unknown tool type: ${this.enabledTool}`);
     }
@@ -96,6 +106,8 @@ export class Tools {
       this.propertiesMeasurement.removeLastSelectedObj(force);
     } else if (this.selectObject.contextEnabled) {
       this.selectObject.removeLastSelectedObj(false);
+    } else if (this.elementPicker.contextEnabled) {
+      this.elementPicker.removeLastSelectedObj(force);
     }
   }
 
@@ -116,6 +128,8 @@ export class Tools {
       this.propertiesMeasurement.handleSelection(selectedObj);
     } else if (this.selectObject.contextEnabled) {
       this.selectObject.handleSelection(selectedObj);
+    } else if (this.elementPicker.contextEnabled) {
+      this.elementPicker.handleSelection(selectedObj, shift);
     }
   }
 
@@ -127,6 +141,8 @@ export class Tools {
       this.propertiesMeasurement.removeLastSelectedObj(true);
     } else if (this.selectObject.contextEnabled) {
       this.selectObject.removeLastSelectedObj(true);
+    } else if (this.elementPicker.contextEnabled) {
+      this.elementPicker.clearBuffer();
     }
   }
 
@@ -146,6 +162,9 @@ export class Tools {
       case ToolTypes.SELECT:
         this.selectObject.handleResponse(response);
         break;
+      case ToolTypes.PICKER:
+        this.elementPicker.handleResponse(response);
+        break;
     }
   }
 
@@ -159,6 +178,8 @@ export class Tools {
       this.propertiesMeasurement.update();
     } else if (this.selectObject.contextEnabled) {
       this.selectObject.update();
+    } else if (this.elementPicker.contextEnabled) {
+      this.elementPicker.update();
     }
   }
 
@@ -166,5 +187,6 @@ export class Tools {
     this.distanceMeasurement.dispose();
     this.propertiesMeasurement.dispose();
     this.selectObject.dispose();
+    this.elementPicker.dispose();
   }
 }
