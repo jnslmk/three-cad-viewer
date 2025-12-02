@@ -286,11 +286,20 @@ class Display {
     );
     this.cadTool.addButton(this.toolbarButtons["select"], 3);
 
+    this.toolbarButtons["picker"] = new ClickButton(
+      theme,
+      "picker",
+      "Element picker (copy build123d selectors)",
+      this.setTool,
+    );
+    this.cadTool.addButton(this.toolbarButtons["picker"], 3);
+
     this.cadTool.defineGroup([
       this.toolbarButtons["explode"],
       this.toolbarButtons["distance"],
       this.toolbarButtons["properties"],
       this.toolbarButtons["select"],
+      this.toolbarButtons["picker"],
     ]);
 
     listeners.add(document, "keydown", (e) => {
@@ -786,8 +795,8 @@ class Display {
         this.viewer.backupAnimation();
       }
       if (
-        ["distance", "properties", "angle", "select"].includes(name) &&
-        !["distance", "properties", "angle", "select"].includes(
+        ["distance", "properties", "angle", "select", "picker"].includes(name) &&
+        !["distance", "properties", "angle", "select", "picker"].includes(
           this.currentButton,
         )
       ) {
@@ -806,6 +815,9 @@ class Display {
       } else if (name == "select") {
         this.viewer.cadTools.enable(ToolTypes.SELECT);
         this.viewer.checkChanges({ activeTool: ToolTypes.SELECT });
+      } else if (name == "picker") {
+        this.viewer.cadTools.enable(ToolTypes.PICKER);
+        this.viewer.checkChanges({ activeTool: ToolTypes.PICKER });
       }
       this.currentButton = name;
     } else {
@@ -820,6 +832,8 @@ class Display {
         this.viewer.cadTools.disable(ToolTypes.PROPERTIES);
       } else if (name == "select") {
         this.viewer.cadTools.disable(ToolTypes.SELECT);
+      } else if (name == "picker") {
+        this.viewer.cadTools.disable(ToolTypes.PICKER);
       }
       this.viewer.checkChanges({ activeTool: ToolTypes.NONE });
       this.viewer.clearSelection();

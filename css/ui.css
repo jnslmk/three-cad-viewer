@@ -109,6 +109,10 @@ body {
   background-image: var(--tcv-icon-select);
 }
 
+.tcv_button_picker {
+  background-image: var(--tcv-icon-picker);
+}
+
 .tcv_button_transparent {
   background-image: var(--tcv-icon-transparent);
 }

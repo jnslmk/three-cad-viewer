@@ -51,6 +51,7 @@
   --tcv-icon-properties: url("../icons/light/properties.svg");
   --tcv-icon-angle: url("../icons/light/angle.svg");
   --tcv-icon-select: url("../icons/light/select.svg");
+  --tcv-icon-picker: url("../icons/light/picker.svg");
   --tcv-icon-transparent: url("../icons/light/transparent.svg");
   --tcv-icon-blackedges: url("../icons/light/black_edges.svg");
   --tcv-icon-nav_open: url("../icons/light/nav_open.svg");
@@ -111,6 +112,7 @@
   --tcv-icon-properties: url("../icons/dark/properties.svg");
   --tcv-icon-angle: url("../icons/dark/angle.svg");
   --tcv-icon-select: url("../icons/dark/select.svg");
+  --tcv-icon-picker: url("../icons/dark/picker.svg");
   --tcv-icon-transparent: url("../icons/dark/transparent.svg");
   --tcv-icon-blackedges: url("../icons/dark/black_edges.svg");
   --tcv-icon-nav_open: url("../icons/dark/nav_open.svg");
