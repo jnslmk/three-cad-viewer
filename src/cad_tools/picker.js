@@ -20,7 +20,8 @@ export class ElementPicker {
 
   handleSelection(selectedObj, shift) {
     if (!selectedObj) return;
-    const path = selectedObj.obj.name;
+    // Convert | delimiter to / for backend compatibility
+    const path = selectedObj.obj.name.replaceAll("|", "/");
     // Send to backend with picker action
     this.viewer.checkChanges(
       {
