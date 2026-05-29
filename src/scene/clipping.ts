@@ -17,7 +17,7 @@ const DEFAULT_NORMALS = [
 ];
 
 /** Plane colors by theme */
-const PLANE_COLORS: Record<Theme, number[]> = {
+let PLANE_COLORS: Record<Theme, number[]> = {
   light: [0xff0000, 0x00ff00, 0x0000ff],
   dark: [0xff4500, 0x32cd32, 0x3b9eff],
 };
@@ -651,6 +651,28 @@ class Clipping extends THREE.Group {
 
     // Restore stencil plane mesh visibility
     this.setVisible(state.planesVisible);
+  }
+
+  updatePlaneColors(theme: Theme, colors: number[]): void {
+    if (colors.length !== 3) return;
+    PLANE_COLORS[theme] = colors;
+
+    if (this.theme !== theme) return;
+
+    if (this.planeHelpers) {
+      for (let i = 0; i < 3; i++) {
+        this.planeHelpers.children[i].material.color.set(new THREE.Color(colors[i]));
+      }
+    }
+
+    if (this._planeMeshGroup) {
+      let j = -1;
+      const len = this._planeMeshGroup.children.length / 3;
+      for (let i = 0; i < this._planeMeshGroup.children.length; i++) {
+        if (i % len === 0) j++;
+        this._planeMeshGroup.children[i].material.color.set(new THREE.Color(colors[j]));
+      }
+    }
   }
 
   /**

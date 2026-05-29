@@ -143,7 +143,7 @@ input[type="radio"] {
   flex-direction: column;
   font-family: sans-serif;
   -webkit-text-size-adjust: none;
-  background-color: transparent;
+  background-color: var(--tcv-bg-color);
   color: var(--tcv-font-color);
   margin: 4px;
   width: fit-content;

@@ -239,6 +239,23 @@ class OrientationMarker {
     }
   }
 
+  changeColors(r: number, g: number, b: number, axis: "x" | "y" | "z" | "all" = "all"): void {
+    const newColor = [r, g, b] as RGBColor;
+    if (axis === "all" || axis === "x") {
+      this.colors["dark"][0] = newColor;
+      this.colors["light"][0] = newColor;
+    }
+    if (axis === "all" || axis === "y") {
+      this.colors["dark"][1] = newColor;
+      this.colors["light"][1] = newColor;
+    }
+    if (axis === "all" || axis === "z") {
+      this.colors["dark"][2] = newColor;
+      this.colors["light"][2] = newColor;
+    }
+    this.changeTheme("dark");
+  }
+
   /**
    * Change the color theme of the orientation marker.
    * @param theme - The theme name ("dark" or "light").
