@@ -11,3 +11,4 @@ ANALYSIS
 coverage/
 working-docs
 .DS_Store
+.worktrees/
