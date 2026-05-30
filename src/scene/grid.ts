@@ -444,6 +444,29 @@ class Grid extends THREE.Group {
       this.lastFontIndex = fontIndex;
     }
   }
+  /**
+   * Change grid axis colors at runtime
+   * @param xColor - Color for X-axis (CSS color string: hex, rgb, rgba)
+   * @param yColor - Color for Y-axis (CSS color string: hex, rgb, rgba)
+   * @param zColor - Color for Z-axis (CSS color string: hex, rgb, rgba)
+   */
+  changeColors(xColor: string, yColor: string, zColor: string): void {
+    // Parse CSS color strings to validate them and convert to hex
+    const parseColor = (color: string): string => {
+      const c = new THREE.Color(color);
+      return "#" + c.getHexString();
+    };
+
+    this.colors[this.theme] = [
+      parseColor(xColor),
+      parseColor(yColor),
+      parseColor(zColor),
+    ];
+
+    // Trigger re-render by forcing grid recreation
+    this.update(1, true);
+  }
+
 
   /**
    * Create the grid geometry and labels

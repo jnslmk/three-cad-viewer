@@ -103,6 +103,26 @@ class AxesHelper extends LineSegments2 {
   changeTheme(theme: Theme): void {
     this.geometry.setColors(new Float32Array(this.colors[theme]));
   }
+
+  changeColors(r: number, g: number, b: number, axis: "x" | "y" | "z" | "all" = "all"): void {
+    const currentColors = this.geometry.getColors();
+    if (!currentColors) return;
+
+    const newColor = [r, g, b];
+    const axisIndices: Record<string, number[]> = {
+      x: [0, 1, 2, 3, 4, 5],
+      y: [6, 7, 8, 9, 10, 11],
+      z: [12, 13, 14, 15, 16, 17],
+    };
+
+    const indices = axis === "all" ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17] : axisIndices[axis];
+
+    for (const i of indices) {
+      currentColors[i] = newColor[i % 3];
+    }
+
+    this.geometry.setColors(currentColors);
+  }
 }
 
 export { AxesHelper };

@@ -4909,13 +4909,19 @@ class Viewer {
   };
 
   /**
-   * Set the UI theme.
-   * @param theme - "light", "dark", or "browser" for auto-detection
-   * @returns The resolved theme ("light" or "dark")
+   * Set the UI theme with optional CSS variable overrides.
+   * @param theme - "light", "dark", "browser", or { preset, overrides } for custom themes
+   * @returns The resolved theme string
    * @public
    */
-  setTheme = (theme: ThemeInput): string => {
-    return this.display.setTheme(theme);
+  setTheme = (
+    theme:
+      | "light"
+      | "dark"
+      | "browser"
+      | { preset: string; overrides?: Record<string, string> }
+  ): string => {
+    return this.display.setTheme(theme as any);
   };
 
   /**

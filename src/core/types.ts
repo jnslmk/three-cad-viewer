@@ -18,7 +18,34 @@ export type ThemeInput = "light" | "dark" | "browser";
 /** Resolved theme (after browser detection) */
 export type Theme = "light" | "dark";
 
-/** Control type */
+/**
+ * Built-in theme preset identifiers.
+ * - "light": Light theme
+ * - "dark": Dark theme
+ */
+export type ThemePreset = "light" | "dark";
+
+export type ThemePresetInput = ThemePreset | string;
+
+/**
+ * Custom theme configuration for user-defined themes.
+ * Allows overriding specific color values from a base preset.
+ */
+export interface ThemePresetConfig {
+  /** Theme identifier name */
+  name: string;
+  /** Base preset to derive from (defaults to "dark") */
+  base?: ThemePreset;
+  /** Custom axis colors as [r, g, b] tuples for X, Y, Z axes */
+  axisColors?: RGBColor[];
+  /** Custom grid color [r, g, b] */
+  gridColor?: RGBColor;
+  /** Custom background color [r, g, b] */
+  backgroundColor?: RGBColor;
+  /** Custom text/foreground color [r, g, b] */
+  textColor?: RGBColor;
+}
+
 export type ControlType = "orbit" | "trackball";
 
 /** Up direction */
@@ -97,11 +124,20 @@ export type RGBColor = [number, number, number];
 /** RGBA color as tuple [r, g, b, a] with values 0-1 */
 export type RGBAColor = [number, number, number, number];
 
-/** Axis colors per theme - array of RGB colors for X, Y, Z axes */
-export type AxisColors = Record<Theme, RGBColor[]>;
+/** Axis colors per theme - array of RGB colors for X, Y, Z axes.
+ * Keys can be Theme ("light" | "dark") or custom theme string identifiers.
+ */
+export type AxisColors = Record<Theme | string, RGBColor[]>;
 
-/** Flat axis colors per theme - all RGB values concatenated for line geometry */
-export type AxisColorsFlatArray = Record<Theme, number[]>;
+/** Flat axis colors per theme - all RGB values concatenated for line geometry.
+ * Keys can be Theme ("light" | "dark") or custom theme string identifiers.
+ */
+export type AxisColorsFlatArray = Record<Theme | string, number[]>;
+
+/** Dynamic theme axis colors - used when theme resolution is deferred.
+ * Provides arrays for all known themes (light, dark, and any custom themes).
+ */
+export type AxisColorsFlatArrayCustom = Record<string, number[]>;
 
 // =============================================================================
 // State Change Types

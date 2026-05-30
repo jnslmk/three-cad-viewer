@@ -19,7 +19,7 @@ import type { ObjectGroup } from "../scene/objectgroup.js";
 import type { ViewerState } from "../core/viewer-state.js";
 import { isClipIndex, CollapseState } from "../core/types.js";
 import type { Vector3Tuple } from "three";
-import type { ActiveTab, ThemeInput, ClipIndex } from "../core/types.js";
+import type { ActiveTab, ThemeInput, ClipIndex, ThemePresetInput } from "../core/types.js";
 import type { CameraDirection } from "../camera/camera.js";
 import { applyTriplanarMapping } from "../rendering/triplanar.js";
 
@@ -3515,52 +3515,49 @@ class Display {
   }
 
   /**
-   * Set the UI theme.
-   * @param theme - "light", "dark", or "browser" for auto-detection
-   * @returns The resolved theme ("light" or "dark")
+   * Set the UI theme with optional CSS variable overrides.
+   * @param themeOrConfig - ThemeInput string ("light", "dark", "browser") OR
+   *                        Object with { preset, overrides } for custom themes
+   * @returns The resolved theme string
    * @public
    */
-  setTheme(theme: ThemeInput): string {
-    let resolved: "dark" | "light";
-    if (
-      theme === "dark" ||
-      (theme === "browser" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      this.container.setAttribute("data-theme", "dark");
-      document.body.setAttribute("data-theme", "dark");
-      if (this.viewer.ready) {
-        this.viewer.orientationMarker.changeTheme("dark");
-        this.viewer.gridHelper.clearCache();
-        this.viewer.gridHelper.update(
-          this.viewer.getCameraZoom(),
-          true,
-          "dark",
-        );
+  setTheme(
+    themeOrConfig: ThemeInput | { preset: ThemePresetInput; overrides?: Record<string, string> }
+  ): string {
+    let resolvedTheme: "dark" | "light";
+    let themeName: string;
+    let cssOverrides: Record<string, string> = {};
+
+    if (typeof themeOrConfig === "string") {
+      if (
+        themeOrConfig === "dark" ||
+        (themeOrConfig === "browser" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        themeName = "dark";
+      } else {
+        themeName = "light";
       }
-      this.viewer.update(true);
-      resolved = "dark";
     } else {
-      this.container.setAttribute("data-theme", "light");
-      document.body.setAttribute("data-theme", "light");
-      if (this.viewer.ready) {
-        this.viewer.orientationMarker.changeTheme("light");
-        this.viewer.gridHelper.clearCache();
-        this.viewer.gridHelper.update(
-          this.viewer.getCameraZoom(),
-          true,
-          "light",
-        );
-      }
-      this.viewer.update(true);
-      resolved = "light";
+      themeName = themeOrConfig.preset;
+      cssOverrides = themeOrConfig.overrides || {};
     }
-    // Keep state.theme in sync with the DOM. Without this, paths that call
-    // setTheme directly (matchMedia listener, viewer.setTheme, MutationObserver
-    // bridges) would update the DOM while leaving state.theme stale, and the
-    // next viewer.render() would re-apply the stale state value
-    this.viewer.state.set("theme", resolved, false);
-    return resolved;
+
+    this.container.setAttribute("data-theme", themeName);
+    document.body.setAttribute("data-theme", themeName);
+
+    for (const [cssVar, value] of Object.entries(cssOverrides)) {
+      this.container.style.setProperty(cssVar, value);
+    }
+
+    if (this.viewer.ready) {
+      this.viewer.orientationMarker.changeTheme(themeName as "dark" | "light");
+      this.viewer.gridHelper.clearCache();
+      this.viewer.gridHelper.update(this.viewer.getCameraZoom(), true, themeName as "dark" | "light");
+      this.viewer.update(true);
+    }
+    this.viewer.state.set("theme", themeName as "dark" | "light", false);
+    return themeName;
   }
 }
 
